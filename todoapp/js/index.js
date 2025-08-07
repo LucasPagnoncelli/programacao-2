@@ -21,3 +21,34 @@ async function removerBanco(idElemento){
         console.error('Fetch error:', error);
     });    
 }
+
+async function atualizarTodo(elemento){
+    var elementoAtualizar = document.querySelector("#"+elemento);
+    var descricao = elementoAtualizar.querySelector(".valor-descricao");
+    console.log(descricao.value);
+    await atualizarBanco(elemento.substring(1,elemento.length),descricao);
+}
+
+async function atualizarBanco(idElemento, descricao){
+    await fetch('http://localhost:8080/update.php?id='+idElemento, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+        body: {
+            "descricao":descricao
+        }
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        response.text().then((res)=>{ alert(res);});
+    })
+    .then((data) => {
+        console.log('Data fetched:', data);
+    })
+    .catch((error) => {
+        console.error('Fetch error:', error);
+    });  
+}
