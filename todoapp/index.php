@@ -37,9 +37,16 @@
             $description = htmlspecialchars($_POST['description']); 
             if(!empty($description)){
                 Salvar($description);
-            }           
+            }
+            Recuperar();           
         }
-        Recuperar();        
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            Recuperar();        
+        }
+        if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
+            $idRemover = $_GET['id']; 
+            echo "Pegou: ". $idRemover;           
+        }
     ?>
     <form method="post">
         <label for="todo-description">Descrição da tarefa:</label>
