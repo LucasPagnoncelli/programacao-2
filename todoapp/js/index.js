@@ -26,24 +26,25 @@ async function atualizarTodo(elemento){
     var elementoAtualizar = document.querySelector("#"+elemento);
     var descricao = elementoAtualizar.querySelector(".valor-descricao");
     console.log(descricao.value);
-    await atualizarBanco(elemento.substring(1,elemento.length),descricao);
+    await atualizarBanco(elemento.substring(1,elemento.length),descricao.value);
 }
 
 async function atualizarBanco(idElemento, descricao){
-    await fetch('http://localhost:8080/update.php?id='+idElemento, {
+    await fetch('http://localhost:8080/update.php', {
         method: 'PUT',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         },
-        body: {
+        body: JSON.stringify({
+            "id":idElemento,
             "descricao":descricao
-        }
+        })
     })
     .then((response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        response.text().then((res)=>{ alert(res);});
+        console.log(response.json());
     })
     .then((data) => {
         console.log('Data fetched:', data);
