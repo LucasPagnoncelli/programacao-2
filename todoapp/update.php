@@ -1,14 +1,19 @@
 <?php
 header('Content-Type: application/json');
+//quando for uma requisição com verbo do tipo "PUT"
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {   
     $connection = require("dbfactory.php");
-    $putData = file_get_contents('php://input',true);
-    $connection = require("dbfactory.php");                        
+    //captura os dados de entrada da requisição e transforma em objeto no PHP
+    $putData = json_decode(file_get_contents('php://input',true));
+    $connection = require("dbfactory.php");
+    $id = $putData->id;
+    $descricaoNova = $putData->descricao;
+    $sql = @"update todo set description = '$descricaoNova' where idtodo = $id";
     if ($connection -> 
-        query(@"update INTO todo (description) VALUES ('$todo');")) {                 
+        query($sql)) {                 
     }
     $connection -> close();
-
+    //depois de executar a operação, retorna o json enviado    
     $response['body'] = json_encode($putData);
     echo $response['body'];        
 } else {
@@ -17,30 +22,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         ]);
     echo $response;
 }
-
-
-// $data = [
-//     'status' => 'success',
-//     'message' => 'Data retrieved successfully',
-//     'items' => [
-//         ['id' => 1, 'name' => 'Item 1'],
-//         ['id' => 2, 'name' => 'Item 2']
-//     ]
-// ];
-
-// echo json_encode($data);
-// if ($_SERVER['REQUEST_METHOD'] === 'PUT') {   
-//     parse_str(file_get_contents('php://input'), $_PUT);
-//     if (!empty($_PUT['descricao'])){
-//         $response['body'] = json_encode([
-//             'descricao' => $_PUT['descricao']
-//         ]);
-//         return $response;
-//     }    
-// } else {
-//     $response['body'] = json_encode([
-//             'error' => 'Invalid input'
-//         ]);
-//     return $response;
-// }
 ?>
