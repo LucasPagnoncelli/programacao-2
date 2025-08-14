@@ -6,10 +6,10 @@
 </head>
 <body>
     <?php
-        function Atualizar($idpessoa, $nome){
+        function Atualizar($idpessoa, $nome, $cpf, $endereco){
             $connection = require("dbfactory.php");                        
             if ($connection ->
-                query(@"UPDATE pessoa SET nome = '$pessoa' WHERE idpessoa = '$idpessoa'")) {                
+                query(@"UPDATE pessoa SET nome = '$pessoa', cpf = '$cpf', endereco = '$endereco' WHERE idpessoa = '$idpessoa'")) {                
             }
             $connection -> close();
         }
@@ -20,25 +20,6 @@
             }
             $connection -> close();
         }
-        function Recuperar(){
-            $connection = require("dbfactory.php");
-            $sql = "SELECT idpessoa,nome,cpf,endereco FROM pessoa";
-
-
-            $result = $mysqli->query($sql);
-            echo "<table>";
-            while ($row = $result->fetch_assoc()) {          
-                echo "<div>";
-                echo "<tr>"                          
-                        . "<td hidden>".$row["idpessoa"]."</td>"
-                        . "<td>".$row["nome"]."</td>"
-                        . "<td>".$row["cpf"]."</td>"
-                        . "<td>".$row["endereco"]."</td>"
-                    ."</tr>";
-                echo "</div>";
-            }
-            echo "</table>";
-        }      
 
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -47,23 +28,60 @@
             $endereco = htmlspecialchars($_POST['endereco']);
             if(!empty($nome) && !empty($cpf) && !empty($endereco)){
                 Salvar($nome, $cpf, $endereco);
-            }          
+            }
+            Recuperar();
         }
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            Recuperar();
+        }
+
         if ($_SERVER["REQUEST_METHOD"] == "PUT") {
             $nome = htmlspecialchars($_POST['nome']);
             if(!empty($nome)){
                 Atualizar($nome);
-            }          
+            }
+            Recuperar();
         }
         if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
             $nome = htmlspecialchars($_POST['nome']);
+            $cpf = htmlspecialchars($_POST['cpf']);
+            $endereco = htmlspecialchars($_POST['endereco']);
             if(!empty($nome)){
                 //Atualizar($nome);
             }          
         }      
 
 
-        Recuperar();        
+        function Recuperar(){
+            $connection = require("dbfactory.php");
+            $sql = "SELECT idpessoa, nome,cpf,endereco FROM pessoa";
+            $result = $mysqli->query($sql);
+            echo "<table>";
+            while ($row = $result->fetch_assoc()) {  
+                $rowid = "'_" . $row["idpessoa"] . "'";       
+                $nome = $row["nome"];
+                $cpf = $row["cpf"];
+                $endereco = $row["endereco"];
+                echo "<tr id = "."_".$row["idpessoa"].">"                        
+                        . "<td>"
+                           . @"<input type='text' class = 'valor-nome' value = '$nome'/>"                         
+                        . "</td>"
+                        . "<td>"
+                           . @"<input type='text' class = 'valor-cpf' value = '$cpf'/>"                         
+                        . "</td>"
+                        . "<td>"
+                           . @"<input type='text' class = 'valor-endereco' value = '$endereco'/>"                         
+                        . "</td>"
+                        . "<td>"
+                        . @"<button onclick=removerpessoa($rowid)>Remover</button>"
+                        ."</td>"
+                        . "<td>"
+                        . @"<button onclick=atualizarpessoa($rowid)>Atualizar</button>"
+                        ."</td>"                                            
+                    ."</tr>";
+            }
+            echo "</table>";
+        }       
     ?>
     <form method="post">
         <label for="pessoa-nome">Nome:</label>
@@ -75,6 +93,6 @@
         <button type="submit">Salvar</button>
     </form>
 </body>
-<script src="/js/index.js"></script>
+<script src="index.js"></script>
 </html>
 

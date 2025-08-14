@@ -1,4 +1,4 @@
-async function removerTodo (elemento){    
+async function removerpessoa (elemento){    
     var elementoRemover = document.querySelector("#"+elemento);
     elementoRemover.remove();    
     await removerBanco(elemento.substring(1,elemento.length));    
@@ -22,14 +22,15 @@ async function removerBanco(idElemento){
     });    
 }
 
-async function atualizarTodo(elemento){
+async function atualizarpessoa(elemento){
     var elementoAtualizar = document.querySelector("#"+elemento);
-    var descricao = elementoAtualizar.querySelector(".valor-descricao");
-    console.log(descricao.value);
-    await atualizarBanco(elemento.substring(1,elemento.length),descricao.value);
+    var nome = elementoAtualizar.querySelector(".valor-nome");
+    var cpf = elementoAtualizar.querySelector(".valor-cpf");
+    var endereco = elementoAtualizar.querySelector(".valor-endereco");
+    await atualizarBanco(elemento.substring(1,elemento.length),nome.value, cpf.value,endereco.value);
 }
 
-async function atualizarBanco(idElemento, descricao){
+async function atualizarBanco(idElemento, nome,cpf,endereco){
     await fetch('http://localhost:8080/update.php', {
         method: 'PUT',
         headers: {
@@ -37,7 +38,9 @@ async function atualizarBanco(idElemento, descricao){
         },
         body: JSON.stringify({
             "id":idElemento,
-            "descricao":descricao
+            "nome":nome,
+            "cpf":cpf,
+            "endereco":endereco
         })
     })
     .then((response) => {
