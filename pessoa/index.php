@@ -65,7 +65,7 @@
 
         Recuperar();        
     ?>
-    <form method="GET">
+    <form method="post">
         <label for="pessoa-nome">Nome:</label>
         <input name="nome" id="pessoa-nome" type="text">
         <label for="pessoa-cpf">Cpf:</label>
