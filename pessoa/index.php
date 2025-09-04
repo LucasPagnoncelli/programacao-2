@@ -13,24 +13,8 @@
             }
             $connection -> close();
         }
-        function Salvar($nome, $cpf, $endereco){
-            $connection = require("dbfactory.php");                        
-            if ($connection ->
-                query(@"INSERT INTO pessoa (nome,cpf,endereco) VALUES ('$nome','$cpf','$endereco');")) {                
-            }
-            $connection -> close();
-        }
 
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nome = htmlspecialchars($_POST['nome']);
-            $cpf = htmlspecialchars($_POST['cpf']);
-            $endereco = htmlspecialchars($_POST['endereco']);
-            if(!empty($nome) && !empty($cpf) && !empty($endereco)){
-                Salvar($nome, $cpf, $endereco);
-            }
-            Recuperar();
-        }
+        
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             Recuperar();
         }
@@ -42,14 +26,7 @@
             }
             Recuperar();
         }
-        if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
-            $nome = htmlspecialchars($_POST['nome']);
-            $cpf = htmlspecialchars($_POST['cpf']);
-            $endereco = htmlspecialchars($_POST['endereco']);
-            if(!empty($nome)){
-                //Atualizar($nome);
-            }          
-        }      
+            
 
 
         function Recuperar(){
