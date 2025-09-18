@@ -1,6 +1,6 @@
 <?php 
 header('Content-Type: application/json');
-function Salvar($pessoa){
+function Salvar($nome, $cpf, $endereco){
     $connection = require("dbfactory.php");                        
     if ($connection -> 
         query(@"INSERT INTO pessoa (nome,cpf,endereco) VALUES ('$nome','$cpf','$endereco');")) {                 

@@ -56,8 +56,19 @@ async function atualizarBanco(idElemento, nome, cpf, endereco) {
         .catch((error) => {
             console.error('Fetch error:', error);
         });
-
-    async function salvarPessoa(nome, cpf, endereco) {
+}
+ function validarFormulario(form) {
+    var camposInvalidos = [];
+    for (let i = 0; i < form.target.elements.length; i++) {
+        const element = form.target.elements[i];
+        if (element.name && element.value) {
+            if (element.value == null || element.value == undefined || element.value == null)
+                camposInvalidos.push(element.name);
+        }
+    }
+    return camposInvalidos;
+}
+async function salvarPessoa(nome, cpf, endereco) {
         await fetch('http://localhost:8080/save.php', {
             method: 'POST',
             headers: {
@@ -80,20 +91,22 @@ async function atualizarBanco(idElemento, nome, cpf, endereco) {
                 console.error('Fetch error:', error);
             });
     }
-    const formElement = document.querySelector('#form-todo');
+    const formElement = document.querySelector('#form-pessoa');
     formElement.addEventListener('submit', async function (event) {
         // Prevent the default form submission
         event.preventDefault();
         const formData = new FormData(event.target); // event.target refers to the form
+        console.log("validando 1");
         var erros = validarFormulario(event);
+        console.log("validando 2");
         if (erros.length > 0) {
             alert(erros);
             //se o formulário não for válido, irá parar a operação por aqui e mostrar os 
             //campos pendentes de preenchimento
             return;
         }
-        console.log(formData.get("description"));
+        console.log(formData.get("nome"));
 
         //segue para enviar para o back-end
-        await salvarTodo(formData.get("description"));
-    }
+        await salvarPessoa(formData.get("nome"),formData.get("cpf"),formData.get("endereco"));
+    })

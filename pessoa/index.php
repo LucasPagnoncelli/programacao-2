@@ -60,7 +60,7 @@
             echo "</table>";
         }       
     ?>
-    <form method="post">
+    <form method="post" id="form-pessoa">
         <label for="pessoa-nome">Nome:</label>
         <input name="nome" id="pessoa-nome" type="text">
         <label for="pessoa-cpf">Cpf:</label>
