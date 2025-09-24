@@ -1,0 +1,12 @@
+<?php
+header('Content-Type: application/json');
+$connection = require("dbfactory.php");
+
+$result = $connection->query("SELECT idlivro, titulo, autor FROM livro");
+$livros = [];
+while ($row = $result->fetch_assoc()) {
+    $livros[] = $row;
+}
+echo json_encode($livros);
+
+$connection->close();
