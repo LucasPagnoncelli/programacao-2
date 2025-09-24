@@ -2,8 +2,8 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Painel CRUD</title>
-  <script src="index.js"></script>
+  <title>Painel CRUD da Biblioteca</title>
+  <script src="index.js" defer></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     h2 { margin-top: 40px; }
@@ -16,8 +16,7 @@
   </style>
 </head>
 <body>
-  <h1>Gerenciamento de Entidades</h1>
-
+  <h1>Painel CRUD da Biblioteca</h1>
 
   <div class="card">
     <h2>📚 Livros</h2>
@@ -58,6 +57,5 @@
       <button type="button" onclick="salvarItem()">Salvar Item</button>
     </form>
   </div>
-
 </body>
 </html>
